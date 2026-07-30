@@ -436,7 +436,95 @@ table.clients tbody tr:hover { background: #fff8ec; }
 
 .form-errors ul { margin: 0; padding-left: 1.125rem; color: #8d1c1c; }
 
+/* ---------- Mobile ---------- */
+
+/* A tabela vira uma lista de cards: em tela estreita as colunas de data ficavam
+   fora da área visível e dependiam de rolagem horizontal, fácil de não perceber.
+   Cada linha passa a ser um grid de 2 colunas:
+
+     nome                    [Editar]
+     situação (badge)
+     Liberado até 08/08      Programado até 31/07  */
+@media (max-width: 720px) {
+  .table-wrap { overflow-x: visible; border: 0; box-shadow: none; }
+
+  table.clients { min-width: 0; display: block; background: transparent; }
+  table.clients thead { display: none; }
+  table.clients tbody { display: block; }
+
+  table.clients tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .5rem .75rem;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: .875rem 1rem;
+    margin-bottom: .625rem;
+  }
+
+  table.clients tbody tr:nth-child(even),
+  table.clients tbody tr:hover { background: var(--white); }
+
+  table.clients tbody td {
+    display: block;
+    border-top: 0;
+    padding: 0;
+  }
+
+  .cell-name { grid-column: 1; grid-row: 1; }
+  .cell-actions { grid-column: 2; grid-row: 1; }
+  .cell-status { grid-column: 1 / -1; grid-row: 2; }
+  .cell-date:nth-of-type(3) { grid-column: 1; grid-row: 3; }
+  .cell-date:nth-of-type(4) { grid-column: 2; grid-row: 3; }
+
+  /* Sem o thead, cada data precisa carregar o próprio rótulo. */
+  .cell-date::before {
+    content: attr(data-label);
+    display: block;
+    font-size: .6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--gray-600);
+    margin-bottom: .125rem;
+  }
+
+  .cell-date { text-align: left; }
+  .cell-actions.row-actions { text-align: right; }
+
+  /* Sem o nowrap do desktop: um approval_detail longo estouraria o card. */
+  .badge { white-space: normal; }
+
+  /* Linha do estado vazio: ocupa o card inteiro. */
+  table.clients tbody tr:has(td[colspan]) { display: block; }
+}
+
 @media (max-width: 640px) {
   h1 { font-size: 1.5rem; }
   .field-row { grid-template-columns: 1fr; }
+
+  .container { padding: 0 1rem; }
+  .main-content { padding-top: 1.5rem; }
+
+  /* Header numa linha só: o logo à esquerda, o link à direita. */
+  .site-header__inner { flex-wrap: nowrap; gap: .75rem; }
+  .site-header__tag { display: none; }
+  .site-header__word { font-size: 1.25rem; }
+  .site-header__mark { width: 34px; height: 34px; }
+
+  .page-head { align-items: stretch; }
+  .page-head .btn { text-align: center; }
+
+  .recap { padding: 1rem 1.125rem; }
+  .recap__list { padding-left: 1.125rem; }
+  .recap__list li { font-size: .9375rem; }
+
+  .form-card { padding: 1.25rem; }
+  .form-actions .spacer { display: none; }
+  .form-actions .btn,
+  .form-actions input[type="submit"],
+  .form-actions form { width: 100%; }
+  .form-actions button { width: 100%; }
 }

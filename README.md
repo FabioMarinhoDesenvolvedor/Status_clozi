@@ -8,6 +8,8 @@ texto calculado em tempo real: quantos clientes estão esperando aprovação, at
 quando há posts aprovados e até quando há posts programados.
 
 - **Stack:** Ruby on Rails 8.1, PostgreSQL, ERB + CSS puro (sem framework de JS)
+- **Responsivo:** abaixo de 720px a tabela vira uma lista de cards, para não
+  depender de rolagem horizontal no celular
 - **Autenticação:** nenhuma (uso interno)
 - **Idioma/timezone:** pt-BR, `America/Sao_Paulo`
 

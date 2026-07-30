@@ -58,11 +58,15 @@
     <tbody>
       <% @clients.each do |client| %>
         <tr>
-          <td><span class="client-name"><%= client.name %></span></td>
-          <td><%= status_badge(client) %></td>
-          <td><%= date_cell(client.released_until, overdue: client.released_overdue?) %></td>
-          <td><%= date_cell(client.scheduled_until, overdue: client.scheduled_overdue?) %></td>
-          <td class="row-actions">
+          <td class="cell-name"><span class="client-name"><%= client.name %></span></td>
+          <td class="cell-status"><%= status_badge(client) %></td>
+          <td class="cell-date" data-label="Liberado até">
+            <%= date_cell(client.released_until, overdue: client.released_overdue?) %>
+          </td>
+          <td class="cell-date" data-label="Programado até">
+            <%= date_cell(client.scheduled_until, overdue: client.scheduled_overdue?) %>
+          </td>
+          <td class="cell-actions row-actions">
             <%= link_to "Editar", edit_client_path(client), class: "btn btn--ghost btn--sm" %>
           </td>
         </tr>
