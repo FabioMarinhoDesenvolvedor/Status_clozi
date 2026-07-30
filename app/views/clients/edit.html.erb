@@ -1,0 +1,11 @@
+<% content_for :title, "Editar #{@client.name} · Status Clozi" %>
+
+<div class="page-head">
+  <div>
+    <h1><%= @client.name %></h1>
+    <p class="page-head__subtitle">Atualize o status de aprovação e as datas.</p>
+  </div>
+  <%= link_to "← Voltar ao painel", clients_path, class: "btn btn--ghost" %>
+</div>
+
+<%= render "form", client: @client, submit_label: "Salvar alterações" %>

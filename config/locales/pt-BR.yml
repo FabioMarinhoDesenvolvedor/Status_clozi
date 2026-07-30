@@ -1,0 +1,32 @@
+pt-BR:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d/%m"
+      long: "%d de %B de %Y"
+    day_names: [domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado]
+    abbr_day_names: [dom, seg, ter, qua, qui, sex, sáb]
+    month_names: [~, janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro]
+    abbr_month_names: [~, jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez]
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%d/%m %H:%M"
+      long: "%d de %B de %Y às %H:%M"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: "não pode ficar em branco"
+      inclusion: "não está incluído na lista"
+      taken: "já está em uso"
+  activerecord:
+    attributes:
+      client:
+        name: "Nome"
+        approval_status: "Status de aprovação"
+        approval_detail: "Detalhe da aprovação"
+        released_until: "Liberado até"
+        scheduled_until: "Programado até"
+        notes: "Observações"
+    models:
+      client: "Cliente"

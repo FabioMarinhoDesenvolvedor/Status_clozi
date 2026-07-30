@@ -1,0 +1,413 @@
+/*
+ * Status Clozi — CSS puro, servido pelo Propshaft.
+ * Paleta: preto #111111 (header/footer), amarelo #F5A623 (destaque), branco (fundo).
+ */
+
+:root {
+  --black: #111111;
+  --yellow: #F5A623;
+  --white: #ffffff;
+
+  --gray-50: #fafafa;
+  --gray-100: #f2f2f2;
+  --gray-200: #e5e5e5;
+  --gray-400: #a3a3a3;
+  --gray-600: #616161;
+  --gray-800: #2a2a2a;
+
+  --green: #1c8b4b;
+  --green-soft: #e4f5ea;
+  --red: #c62828;
+  --red-soft: #fdeaea;
+
+  --radius: 8px;
+  --shadow: 0 1px 2px rgba(17, 17, 17, .06), 0 4px 16px rgba(17, 17, 17, .04);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: "Archivo Black", "Archivo", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -.01em;
+  margin: 0 0 .5rem;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: .04em; }
+
+a { color: var(--black); }
+
+.container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--black);
+  color: var(--white);
+  padding: 1rem 0;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-header__logo {
+  font-family: "Archivo Black", Arial, sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: .02em;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 4px solid var(--yellow);
+  line-height: 1.1;
+}
+
+.site-header__tag {
+  color: var(--gray-400);
+  font-size: .875rem;
+}
+
+.site-header__nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .875rem;
+}
+
+.nav-link:hover { color: var(--yellow); }
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: auto;
+  background: var(--black);
+  color: var(--gray-400);
+  padding: 1.25rem 0;
+  font-size: .8125rem;
+}
+
+.site-footer__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- Main ---------- */
+
+.main-content {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  flex: 1;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.page-head__subtitle {
+  color: var(--gray-600);
+  margin: 0;
+  font-size: .9375rem;
+}
+
+/* ---------- Flash ---------- */
+
+.flash {
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+  font-size: .9375rem;
+  border-left: 4px solid;
+}
+
+.flash--notice { background: var(--green-soft); border-color: var(--green); color: #12572f; }
+.flash--alert { background: var(--red-soft); border-color: var(--red); color: #8d1c1c; }
+
+/* ---------- Resumo em texto ---------- */
+
+.recap {
+  background: #fff8ec;
+  border: 1px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.recap__list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.recap__list li { font-size: 1rem; }
+
+.recap__list strong {
+  font-family: "Archivo Black", Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.recap__alert { color: #8d1c1c; font-weight: 600; }
+
+/* ---------- Tabela ---------- */
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+table.clients {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  min-width: 720px;
+}
+
+table.clients thead th {
+  background: var(--black);
+  color: var(--white);
+  text-align: left;
+  font-size: .6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: .75rem 1rem;
+  white-space: nowrap;
+}
+
+table.clients tbody td {
+  padding: .8125rem 1rem;
+  border-top: 1px solid var(--gray-200);
+  vertical-align: middle;
+}
+
+table.clients tbody tr:nth-child(even) { background: var(--gray-50); }
+table.clients tbody tr:hover { background: #fff8ec; }
+
+.client-name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.client-notes {
+  display: block;
+  color: var(--gray-600);
+  font-size: .8125rem;
+  font-weight: 400;
+  margin-top: .125rem;
+}
+
+.date-cell {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.date-cell--overdue {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.date-cell--overdue::before {
+  content: "▲ ";
+  font-size: .75rem;
+}
+
+.date-cell--empty { color: var(--gray-400); }
+
+.row-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---------- Badges ---------- */
+
+.badge {
+  display: inline-block;
+  padding: .25rem .6875rem;
+  border-radius: 999px;
+  font-size: .8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge--aprovado { background: var(--green); color: var(--white); }
+.badge--pendente { background: var(--red); color: var(--white); }
+.badge--sem_posts { background: var(--gray-200); color: var(--gray-800); }
+.badge--data_a_definir { background: var(--yellow); color: var(--black); }
+
+.badge-detail {
+  display: block;
+  margin-top: .25rem;
+  font-size: .8125rem;
+  color: var(--gray-600);
+}
+
+/* ---------- Botões ---------- */
+
+.btn {
+  display: inline-block;
+  padding: .625rem 1.125rem;
+  border: 0;
+  border-radius: var(--radius);
+  font-family: "Archivo", sans-serif;
+  font-size: .9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.btn--accent { background: var(--yellow); color: var(--black); }
+.btn--accent:hover { background: #e0951b; }
+
+.btn--dark { background: var(--black); color: var(--white); }
+.btn--dark:hover { background: var(--gray-800); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+}
+
+.btn--ghost:hover { color: var(--black); border-color: var(--black); }
+
+.btn--danger {
+  background: transparent;
+  color: var(--red);
+  border: 1px solid var(--red-soft);
+}
+
+.btn--danger:hover { background: var(--red-soft); }
+
+.btn--sm { padding: .375rem .75rem; font-size: .8125rem; }
+
+/* ---------- Formulário ---------- */
+
+.form-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+  max-width: 640px;
+}
+
+.field { margin-bottom: 1.25rem; }
+
+.field label {
+  display: block;
+  font-size: .8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--gray-600);
+  margin-bottom: .375rem;
+}
+
+.field input[type="text"],
+.field input[type="date"],
+.field select,
+.field textarea {
+  width: 100%;
+  padding: .625rem .75rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: .9375rem;
+  color: var(--black);
+  background: var(--white);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: -1px;
+  border-color: var(--yellow);
+}
+
+.field__hint {
+  display: block;
+  margin-top: .3125rem;
+  font-size: .8125rem;
+  color: var(--gray-600);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gray-200);
+  flex-wrap: wrap;
+}
+
+.form-actions .spacer { margin-left: auto; }
+
+.form-errors {
+  background: var(--red-soft);
+  border-left: 4px solid var(--red);
+  border-radius: var(--radius);
+  padding: .875rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-errors h2 {
+  font-size: .875rem;
+  color: #8d1c1c;
+  margin: 0 0 .375rem;
+}
+
+.form-errors ul { margin: 0; padding-left: 1.125rem; color: #8d1c1c; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.5rem; }
+  .field-row { grid-template-columns: 1fr; }
+}

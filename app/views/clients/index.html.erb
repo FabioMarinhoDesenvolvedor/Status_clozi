@@ -1,0 +1,81 @@
+<% content_for :title, "Status Clozi · Clientes" %>
+
+<div class="page-head">
+  <div>
+    <h1>Status dos clientes</h1>
+    <p class="page-head__subtitle">
+      <%= @summary.total %> clientes · referência: <%= br_date(Date.current) %>
+    </p>
+  </div>
+  <%= link_to "+ Novo cliente", new_client_path, class: "btn btn--accent" %>
+</div>
+
+<section class="recap">
+  <ul class="recap__list">
+    <li>
+      Temos <strong><%= @summary.pending_count %></strong>
+      <%= "cliente".pluralize(@summary.pending_count) %> esperando aprovação<%= ": #{names_sentence(@summary.pending)}" if @summary.pending.any? %>.
+    </li>
+
+    <% earliest, latest = @summary.released_range %>
+    <li>
+      <% if earliest %>
+        Temos posts aprovados até <strong><%= short_date(earliest) %></strong><%= " (e até #{short_date(latest)} no cliente mais adiantado)" if latest != earliest %>.
+      <% else %>
+        Nenhum cliente com data de liberação informada.
+      <% end %>
+    </li>
+
+    <% earliest, latest = @summary.scheduled_range %>
+    <li>
+      <% if earliest %>
+        Temos posts programados até <strong><%= short_date(earliest) %></strong><%= " (e até #{short_date(latest)} no cliente mais adiantado)" if latest != earliest %>.
+      <% else %>
+        Nenhum cliente com data de programação informada.
+      <% end %>
+    </li>
+
+    <% if @summary.overdue.any? %>
+      <li class="recap__alert">
+        Atenção: <%= names_sentence(@summary.overdue) %>
+        <%= @summary.overdue.one? ? "está" : "estão" %> com data vencida.
+      </li>
+    <% end %>
+  </ul>
+</section>
+
+<div class="table-wrap">
+  <table class="clients">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Situação</th>
+        <th>Liberado até</th>
+        <th>Programado até</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clients.each do |client| %>
+        <tr>
+          <td><span class="client-name"><%= client.name %></span></td>
+          <td><%= status_badge(client) %></td>
+          <td><%= date_cell(client.released_until, overdue: client.released_overdue?) %></td>
+          <td><%= date_cell(client.scheduled_until, overdue: client.scheduled_overdue?) %></td>
+          <td class="row-actions">
+            <%= link_to "Editar", edit_client_path(client), class: "btn btn--ghost btn--sm" %>
+          </td>
+        </tr>
+      <% end %>
+
+      <% if @clients.empty? %>
+        <tr>
+          <td colspan="5">
+            Nenhum cliente cadastrado ainda. Rode <code>bin/rails db:seed</code>
+            ou <%= link_to "cadastre um cliente", new_client_path %>.
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

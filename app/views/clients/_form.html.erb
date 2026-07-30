@@ -1,0 +1,58 @@
+<%= form_with model: client, class: "form-card" do |f| %>
+  <% if client.errors.any? %>
+    <div class="form-errors">
+      <h2><%= pluralize(client.errors.count, "erro impediu", plural: "erros impediram") %> o salvamento:</h2>
+      <ul>
+        <% client.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name, "Nome do cliente" %>
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :approval_status, "Status de aprovação" %>
+    <%= f.select :approval_status,
+          Client::APPROVAL_STATUSES.map { |s| [ Client::STATUS_LABELS[s], s ] } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :approval_detail, "Detalhe da aprovação" %>
+    <%= f.text_field :approval_detail, placeholder: "Ex.: Até 31/08 · 11/08 e 21/08" %>
+    <span class="field__hint">Texto livre, aparece ao lado do badge na tabela. Opcional.</span>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <%= f.label :released_until, "Liberado até" %>
+      <%= f.date_field :released_until %>
+    </div>
+
+    <div class="field">
+      <%= f.label :scheduled_until, "Programado até" %>
+      <%= f.date_field :scheduled_until %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :notes, "Observações" %>
+    <%= f.text_area :notes, rows: 4 %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit submit_label, class: "btn btn--accent" %>
+    <%= link_to "Cancelar", clients_path, class: "btn btn--ghost" %>
+
+    <% if client.persisted? %>
+      <span class="spacer"></span>
+      <%= button_to "Remover cliente", client_path(client), method: :delete,
+            class: "btn btn--danger",
+            form: { data: { turbo_confirm: "Remover #{client.name} do painel?" } } %>
+    <% end %>
+  </div>
+<% end %>

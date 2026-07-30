@@ -1,0 +1,11 @@
+<% content_for :title, "Novo cliente · Status Clozi" %>
+
+<div class="page-head">
+  <div>
+    <h1>Novo cliente</h1>
+    <p class="page-head__subtitle">Só o nome é obrigatório; o resto pode entrar depois.</p>
+  </div>
+  <%= link_to "← Voltar ao painel", clients_path, class: "btn btn--ghost" %>
+</div>
+
+<%= render "form", client: @client, submit_label: "Criar cliente" %>

@@ -1,0 +1,28 @@
+# PostgreSQL configuration.
+#
+# Locally the app connects to the PostgreSQL instance on your machine.
+# In production (Render) everything comes from the DATABASE_URL environment
+# variable, which Render injects automatically from the managed database
+# declared in render.yaml.
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: status_clozi_development
+  # Conecta como o superusuário "postgres" do cluster local. Se você criar uma
+  # role com o nome do seu usuário do sistema (`createuser -s $USER` rodado como
+  # postgres), pode remover a linha abaixo.
+  username: <%= ENV.fetch("STATUS_CLOZI_DB_USER", "postgres") %>
+
+test:
+  <<: *default
+  database: status_clozi_test
+  username: <%= ENV.fetch("STATUS_CLOZI_DB_USER", "postgres") %>
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

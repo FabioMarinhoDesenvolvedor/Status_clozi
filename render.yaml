@@ -1,0 +1,50 @@
+# Blueprint do Render: um Web Service (Rails via Docker) + um PostgreSQL gerenciado.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Por que Docker e não o runtime nativo de Ruby: o projeto roda em Ruby 4.0.5,
+# uma versão recente que o runtime nativo do Render pode ainda não oferecer.
+# O Dockerfile (gerado pelo Rails) parte da imagem oficial ruby:4.0.5-slim,
+# então a versão fica garantida.
+
+databases:
+  - name: status-clozi-db
+    databaseName: status_clozi
+    user: status_clozi
+    plan: free
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: status-clozi
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    # Sobrescreve o CMD do Dockerfile (que usa Thruster na porta 80) para o Puma
+    # escutar direto na porta que o Render injeta em PORT.
+    #
+    # Manter exatamente "./bin/rails server" é importante: o bin/docker-entrypoint
+    # verifica esses dois argumentos para rodar `db:prepare` antes de subir o app.
+    # É o db:prepare que cria o schema no primeiro deploy (rodando o db/seeds.rb
+    # junto) e aplica só as migrations pendentes nos deploys seguintes.
+    dockerCommand: ./bin/rails server
+    healthCheckPath: /up
+    envVars:
+      # Connection string do banco declarado acima, injetada pelo Render.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: status-clozi-db
+          property: connectionString
+      # Gerado pelo Render no primeiro deploy. Tem precedência sobre as
+      # credentials criptografadas, então o config/master.key não precisa
+      # (e não deve) ir para o repositório.
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MAX_THREADS
+        value: "3"
+      - key: WEB_CONCURRENCY
+        value: "1"
