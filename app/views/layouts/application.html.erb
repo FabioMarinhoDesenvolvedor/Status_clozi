@@ -12,7 +12,6 @@
     <%= yield :head %>
 
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +26,12 @@
   <body>
     <header class="site-header">
       <div class="container site-header__inner">
-        <a href="<%= root_path %>" class="site-header__logo">CLOZI</a>
+        <a href="<%= root_path %>" class="site-header__logo">
+          <span class="site-header__mark">
+            <%= image_tag "logo_clozi.jpeg", alt: "" %>
+          </span>
+          <span class="site-header__word">CLOZI</span>
+        </a>
         <span class="site-header__tag">Painel de status de posts</span>
         <nav class="site-header__nav">
           <%= link_to "Painel de clientes", clients_path, class: "nav-link" %>
