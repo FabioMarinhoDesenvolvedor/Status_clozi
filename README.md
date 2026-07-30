@@ -59,6 +59,7 @@ db/
   migrate/                            # criação da tabela clients
   seeds.rb                            # carteira de clientes
 Dockerfile                            # imagem de produção (usada pelo Render)
+bin/render-start                      # db:prepare + Puma (dockerCommand do Render)
 render.yaml                           # blueprint: web service + PostgreSQL
 ```
 
@@ -95,10 +96,17 @@ Isso é proposital: o projeto roda em Ruby 4.0.5, uma versão recente que o runt
 nativo de Ruby do Render pode ainda não oferecer — a imagem oficial
 `ruby:4.0.5-slim` elimina esse risco.
 
-As migrations rodam sozinhas: o `bin/docker-entrypoint` executa `db:prepare`
-antes de subir o Puma. No **primeiro** deploy o `db:prepare` cria o schema e roda
-o `db/seeds.rb` junto; nos deploys seguintes ele só aplica migrations pendentes,
-sem tocar nos dados — ou seja, o que você editar pelo painel não é sobrescrito.
+As migrations rodam sozinhas: o `dockerCommand` do blueprint aponta para
+`bin/render-start`, que executa `db:prepare` e só então sobe o Puma. No
+**primeiro** deploy o `db:prepare` carrega o schema e roda o `db/seeds.rb` junto;
+nos deploys seguintes ele só aplica migrations pendentes, sem tocar nos dados —
+ou seja, o que você editar pelo painel não é sobrescrito.
+
+> Não troque o `dockerCommand` por `./bin/rails server`. O `bin/docker-entrypoint`
+> gerado pelo Rails só dispara o `db:prepare` quando os dois últimos argumentos
+> são exatamente `./bin/rails` e `server`, e o Render entrega o comando através de
+> um shell — o check não casa e o app sobe sem as tabelas (erro 500 com
+> `PG::UndefinedTable`).
 
 ### 1. Subir o código no GitHub
 

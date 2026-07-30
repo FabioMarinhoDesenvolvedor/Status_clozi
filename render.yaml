@@ -22,14 +22,12 @@ services:
     branch: main
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    # Sobrescreve o CMD do Dockerfile (que usa Thruster na porta 80) para o Puma
-    # escutar direto na porta que o Render injeta em PORT.
-    #
-    # Manter exatamente "./bin/rails server" é importante: o bin/docker-entrypoint
-    # verifica esses dois argumentos para rodar `db:prepare` antes de subir o app.
-    # É o db:prepare que cria o schema no primeiro deploy (rodando o db/seeds.rb
-    # junto) e aplica só as migrations pendentes nos deploys seguintes.
-    dockerCommand: ./bin/rails server
+    # Sobrescreve o CMD do Dockerfile (que usa Thruster na porta 80). O script
+    # roda `db:prepare` e só então sobe o Puma, que escuta na porta injetada em
+    # PORT. Não dá para chamar "./bin/rails server" direto aqui: o Render entrega
+    # este comando através de um shell, e aí o check do bin/docker-entrypoint que
+    # dispararia o db:prepare não casa — o app subiria sem as tabelas.
+    dockerCommand: ./bin/render-start
     healthCheckPath: /up
     envVars:
       # Connection string do banco declarado acima, injetada pelo Render.

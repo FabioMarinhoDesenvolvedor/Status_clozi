@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Comando de start do serviço web no Render (ver dockerCommand no render.yaml).
+#
+# Não dependemos do bin/docker-entrypoint para preparar o banco: o check dele
+# exige que os dois últimos argumentos sejam exatamente "./bin/rails" e
+# "server", e o Render entrega o dockerCommand através de um shell
+# (`sh -c "..."`), então o check nunca casa e o db:prepare seria pulado.
+#
+# db:prepare é idempotente:
+#   - banco vazio  -> carrega o schema e roda o db/seeds.rb
+#   - banco pronto -> aplica só as migrations pendentes, sem tocar nos dados
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "==> preparando o banco (db:prepare)"
+./bin/rails db:prepare
+
+echo "==> subindo o Puma na porta ${PORT:-3000}"
+exec ./bin/rails server
